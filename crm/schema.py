@@ -7,6 +7,7 @@ from django.utils import timezone
 from decimal import Decimal
 from graphene_django.filter import DjangoFilterConnectionField
 from .filters import CustomerFilter, ProductFilter, OrderFilter
+from crm.models import Product
 
 
 # TYPES
@@ -156,3 +157,18 @@ class Mutation(graphene.ObjectType):
     bulk_create_customers = BulkCreateCustomers.Field()
     create_product = CreateProduct.Field()
     create_order = CreateOrder.Field()
+    update_low_stock_products = UpdateLowStockProducts.Field()
+
+class UpdateLowStockProducts(graphene.Mutation):
+    success = graphene.String()
+    updated_products = graphene.List(graphene.String)
+
+    def mutate(self, info):
+        low_stock = Product.objects.filter(stock__lt=10)
+        updated = []
+        for product in low_stock:
+            product.stock += 10
+            product.save()
+            updated.append(f"{product.name}: {product.stock}")
+        return UpdateLowStockProducts(success="Stock updated", updated_products=updated)
+
