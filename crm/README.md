@@ -1,9 +1,8 @@
-# 🕒 Celery + django-celery-beat Setup (CRM Reports)
+# 🕒 Celery + django-celery-beat Setup for CRM Reports
 
-This section explains how to set up and run Celery to generate weekly CRM reports.
+This guide explains how to set up Celery to generate weekly CRM reports automatically.
 
-## 🧩 Installation Steps
-
-1. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
+## 1. Install Dependencies
+Make sure these packages are installed:
+```bash
+pip install -r requirements.txt
